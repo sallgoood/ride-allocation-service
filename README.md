@@ -16,6 +16,9 @@ you can also build and run artifact
 * ./gradlew clean build
 * java -jar build/libs/ride-allocation-service-0.0.1-SNAPSHOT.jar
 
+* if you want to connect with different database, you can modify it from `./src/main/resources/application.yml`
+or any `./src/main/resources/{profile}` and run with profile argument ` java -jar -Dspring.profiles.active={profile} ..`
+
 ### API Reference
 after run application with above command, visit below link,
 * [API Reference(Swagger UI)](http://localhost:8080/swagger-ui.html)
