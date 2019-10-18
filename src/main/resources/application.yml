@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:memory:myDb?cache=shared
+    username: sa
+    password: sa
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLiteDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+security:
+  jwt:
+    token:
+      secret-key: secret-key
+      expire-length: 300000
