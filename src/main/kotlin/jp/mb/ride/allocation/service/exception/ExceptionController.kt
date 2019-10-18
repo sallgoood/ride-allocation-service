@@ -42,7 +42,7 @@ class ExceptionController : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(value = [AccountNotFoundException::class])
     fun handleAccountNotFoundException(ex: AccountNotFoundException, request: WebRequest): ResponseEntity<Any> {
-        return ResponseEntity.status(UNAUTHORIZED).body(ErrorMessage(ex.message!!))
+        return ResponseEntity.status(NOT_FOUND).body(ErrorMessage(ex.message!!))
     }
 
     @ExceptionHandler(value = [IllegalArgumentException::class])

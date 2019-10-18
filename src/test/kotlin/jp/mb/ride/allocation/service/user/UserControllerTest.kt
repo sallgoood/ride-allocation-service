@@ -53,7 +53,7 @@ internal class UserControllerTest : IntegrationTestBase() {
     }
 
     @Test
-    fun `when user sign in with invalid username then 401`() {
+    fun `when user sign in with invalid username then 404`() {
         val command = UserSignInCommand("myoungsokang@gmail.com", "MyBridge!2#4")
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
@@ -62,7 +62,7 @@ internal class UserControllerTest : IntegrationTestBase() {
                         .content(commandJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isUnauthorized)
+                .andExpect(status().isNotFound)
     }
 
     @Test

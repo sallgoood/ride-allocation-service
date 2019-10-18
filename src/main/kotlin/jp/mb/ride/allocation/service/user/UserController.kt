@@ -23,7 +23,7 @@ class UserController(
     @PostMapping("/users/sign-in")
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "when request with invalid data"),
-        ApiResponse(code = 401, message = "when authentication is insufficient")
+        ApiResponse(code = 404, message = "when username not found")
     ])
     fun signInUser(@Valid @RequestBody command: UserSignInCommand): TokenResponse {
         return service.signInUser(command)
