@@ -17,7 +17,7 @@ you can also build and run artifact
 * java -jar build/libs/ride-allocation-service-0.0.1-SNAPSHOT.jar
 
 * if you want to connect with different database, you can modify it from `./src/main/resources/application.yml`
-or any `./src/main/resources/{profile}` and run with profile argument ` java -jar -Dspring.profiles.active={profile} ..`
+or any `./src/main/resources/application-{profile}.yml` and run with profile argument ` java -jar -Dspring.profiles.active={profile} ..`
 
 ### API Reference
 after run application with above command, visit below link,
