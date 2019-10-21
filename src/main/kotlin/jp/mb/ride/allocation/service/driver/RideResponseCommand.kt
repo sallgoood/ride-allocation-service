@@ -6,9 +6,5 @@ import javax.validation.constraints.NotNull
 data class RideResponseCommand(
         @field:NotNull
         @field:Min(0)
-        val requestId: Long,
-
-        @field:NotNull
-        @field:Min(0)
-        val driverId: Long
+        val requestId: Long
 )

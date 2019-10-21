@@ -19,16 +19,16 @@ internal class RideRequestRepositoryTest {
 
     @Test
     fun `ride request with optimistic locking`() {
-        val request = repository.save(requestedBy(0L, "AnyAddress", now()))
+        val request = repository.save(requestedBy("AnyName", "AnyAddress", now()))
 
         val request01 = repository.findById(request.id!!).get()
         val request02 = repository.findById(request.id!!).get()
 
         assertEquals(request01.id, request02.id)
 
-        repository.save(request01.allocateDriver(1L, ANY_DRIVER_NAME, now()))
+        repository.save(request01.allocateDriver(ANY_DRIVER_NAME, now()))
 
         assertThrows(ObjectOptimisticLockingFailureException::class.java)
-        { repository.save(request02.allocateDriver(2L, ANY_DRIVER_NAME, now())) }
+        { repository.save(request02.allocateDriver(ANY_DRIVER_NAME, now())) }
     }
 }

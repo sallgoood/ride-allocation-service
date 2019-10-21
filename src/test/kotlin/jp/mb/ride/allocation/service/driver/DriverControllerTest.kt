@@ -3,7 +3,7 @@ package jp.mb.ride.allocation.service.driver
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import jp.mb.ride.allocation.service.SecurityDisabledIntegrationTest
 import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_ADDRESS
-import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_PASSENGER_ID
+import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_PASSENGER_NAME
 import jp.mb.ride.allocation.service.ride.RideRequest.Companion.requestedBy
 import jp.mb.ride.allocation.service.ride.RideRequestRepository
 import org.hamcrest.Matchers.hasSize
@@ -33,9 +33,9 @@ internal class DriverControllerTest : SecurityDisabledIntegrationTest() {
     @Test
     fun `when driver query requests to respond then only opened requests should be returned`() {
         repository.saveAll(listOf(
-                requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME),
-                requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME),
-                requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME).allocateDriver(ANY_DRIVER_ID, ANY_DRIVER_NAME, ANY_DATE_TIME)))
+                requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME),
+                requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME),
+                requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME).allocateDriver(ANY_DRIVER_NAME, ANY_DATE_TIME)))
 
         mvc.perform(
                 get("/drivers/find-opened-ride-requests"))
@@ -46,9 +46,9 @@ internal class DriverControllerTest : SecurityDisabledIntegrationTest() {
 
     @Test
     fun `when driver response to a request then response should be persisted`() {
-        val requested = repository.save(requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME))
+        val requested = repository.save(requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME))
 
-        val command = RideResponseCommand(requested.id!!, ANY_DRIVER_ID)
+        val command = RideResponseCommand(requested.id!!)
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
         mvc.perform(
@@ -65,10 +65,10 @@ internal class DriverControllerTest : SecurityDisabledIntegrationTest() {
 
     @Test
     fun `when driver response to a allocated request then should return 422`() {
-        val allocated = repository.save(requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME)
-                .allocateDriver(ANY_DRIVER_ID, ANY_DRIVER_NAME, ANY_DATE_TIME))
+        val allocated = repository.save(requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME)
+                .allocateDriver(ANY_DRIVER_NAME, ANY_DATE_TIME))
 
-        val command = RideResponseCommand(allocated.id!!, ANY_DRIVER_ID)
+        val command = RideResponseCommand(allocated.id!!)
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
         mvc.perform(
@@ -84,7 +84,7 @@ internal class DriverControllerTest : SecurityDisabledIntegrationTest() {
 
     @Test
     fun `when driver request with invalid data then should return 400`() {
-        val command = RideResponseCommand(ANY_INVALID_REQUEST_ID, ANY_INVALID_DRIVER_ID)
+        val command = RideResponseCommand(ANY_INVALID_REQUEST_ID)
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
         mvc.perform(
@@ -97,9 +97,7 @@ internal class DriverControllerTest : SecurityDisabledIntegrationTest() {
 
     companion object {
         val ANY_DATE_TIME = now()
-        const val ANY_DRIVER_ID = 0L
         const val ANY_DRIVER_NAME = "anyDriver@driver.com"
         const val ANY_INVALID_REQUEST_ID = -1L
-        const val ANY_INVALID_DRIVER_ID = -1L
     }
 }

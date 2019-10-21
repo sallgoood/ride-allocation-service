@@ -13,7 +13,7 @@ class RideRequest(
         var id: Long?,
 
         @Column(nullable = false)
-        val passengerId: Long,
+        val passengerName: String,
 
         @Size(min = 1, max = 200)
         @Column(nullable = false)
@@ -21,9 +21,6 @@ class RideRequest(
 
         @Column(nullable = false)
         val requestedAt: LocalDateTime,
-
-        @Column
-        var driverId: Long?,
 
         @Column
         var driverName: String?,
@@ -36,23 +33,22 @@ class RideRequest(
         var version: Long?) {
 
     companion object {
-        fun requestedBy(passengerId: Long, address: String, requestedAt: LocalDateTime): RideRequest {
-            return RideRequest(passengerId, address, requestedAt)
+        fun requestedBy(passengerName: String, address: String, requestedAt: LocalDateTime): RideRequest {
+            return RideRequest(passengerName, address, requestedAt)
         }
     }
 
-    fun allocateDriver(driverId: Long, driverName: String, respondedAt: LocalDateTime): RideRequest {
-        this.driverId = driverId
+    fun allocateDriver(driverName: String, respondedAt: LocalDateTime): RideRequest {
         this.respondedAt = respondedAt
         this.driverName = driverName
         return this
     }
 
     fun isAllocated(): Boolean {
-        return driverId != null
+        return driverName != null
     }
 
-    private constructor(passengerId: Long, address: String, requestedAt: LocalDateTime) : this(
-            null, passengerId, address, requestedAt, null, null, null, null
-    )
+    private constructor(passengerName: String, address: String, requestedAt: LocalDateTime) : this(
+            id = null, passengerName = passengerName, address = address, requestedAt = requestedAt,
+            driverName = null, respondedAt = null, version = null)
 }

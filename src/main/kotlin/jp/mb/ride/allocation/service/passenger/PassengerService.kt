@@ -2,6 +2,7 @@ package jp.mb.ride.allocation.service.passenger
 
 import jp.mb.ride.allocation.service.ride.RideRequest.Companion.requestedBy
 import jp.mb.ride.allocation.service.ride.RideRequestRepository
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime.now
 import javax.persistence.EntityNotFoundException
@@ -10,9 +11,9 @@ import javax.persistence.EntityNotFoundException
 class PassengerService(
         val repository: RideRequestRepository) {
 
-    fun requestRide(command: RideRequestCommand): Long {
-        val (passengerId, address) = command
-        val request = requestedBy(passengerId = passengerId, address = address, requestedAt = now())
+    fun requestRide(passenger: UserDetails, command: RideRequestCommand): Long {
+        val (address) = command
+        val request = requestedBy(passengerName = passenger.username, address = address, requestedAt = now())
         return repository.save(request).id!!
     }
 

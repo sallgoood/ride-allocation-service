@@ -12,8 +12,8 @@ class OperatorService(
     fun findAllRideRequests(pageable: Pageable): AnyRideRequestQueryResult {
         val anyRideRequests = repository.findAllByOrderByRequestedAtDesc(pageable)
                 .map {
-                    AnyRideRequest(id = it.id!!, passengerId = it.passengerId, address = it.address,
-                            requestedAt = it.requestedAt, driverId = it.driverId, respondedAt = it.respondedAt,
+                    AnyRideRequest(id = it.id!!, passengerName = it.passengerName, address = it.address,
+                            requestedAt = it.requestedAt, driverName = it.driverName, respondedAt = it.respondedAt,
                             isAllocated = it.isAllocated())
                 }
 

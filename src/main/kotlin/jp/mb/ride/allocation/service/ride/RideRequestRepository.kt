@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface RideRequestRepository : JpaRepository<RideRequest, Long> {
 
-    fun findAllByPassengerId(id: Long): List<RideRequest>
+    fun findAllByPassengerName(passengerName: String): List<RideRequest>
 
-    fun findAllByDriverIdIsNull(pageable: Pageable): List<RideRequest>
+    fun findAllByDriverNameIsNull(pageable: Pageable): List<RideRequest>
 
     fun findAllByOrderByRequestedAtDesc(pageable: Pageable): List<RideRequest>
 }

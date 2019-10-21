@@ -2,10 +2,9 @@ package jp.mb.ride.allocation.service.operator
 
 import jp.mb.ride.allocation.service.SecurityDisabledIntegrationTest
 import jp.mb.ride.allocation.service.driver.DriverControllerTest.Companion.ANY_DATE_TIME
-import jp.mb.ride.allocation.service.driver.DriverControllerTest.Companion.ANY_DRIVER_ID
 import jp.mb.ride.allocation.service.driver.DriverControllerTest.Companion.ANY_DRIVER_NAME
 import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_ADDRESS
-import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_PASSENGER_ID
+import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_PASSENGER_NAME
 import jp.mb.ride.allocation.service.ride.RideRequest.Companion.requestedBy
 import jp.mb.ride.allocation.service.ride.RideRequestRepository
 import org.hamcrest.Matchers.`is`
@@ -30,9 +29,9 @@ internal class OperatorControllerTest : SecurityDisabledIntegrationTest() {
 
     @Test
     fun `when operator query all requests then should return all requests with order by recently requested`() {
-        val today = requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME)
-        val yesterday = requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME.minusDays(1))
-        val twoDaysAgo = requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME.minusDays(2)).allocateDriver(ANY_DRIVER_ID, ANY_DRIVER_NAME, ANY_DATE_TIME)
+        val today = requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME)
+        val yesterday = requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME.minusDays(1))
+        val twoDaysAgo = requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME.minusDays(2)).allocateDriver(ANY_DRIVER_NAME, ANY_DATE_TIME)
 
         val latest = repository.save(today)
         val mid = repository.save(yesterday)

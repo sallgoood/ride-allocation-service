@@ -2,6 +2,8 @@ package jp.mb.ride.allocation.service.passenger
 
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -16,8 +18,9 @@ class PassengerController(val passengerService: PassengerService) {
         ApiResponse(code = 401, message = "when authentication is insufficient"),
         ApiResponse(code = 403, message = "when authority is insufficient")
     ])
-    fun requestRide(@Valid @RequestBody command: RideRequestCommand): Long {
-        return passengerService.requestRide(command)
+    fun requestRide(@Valid @RequestBody command: RideRequestCommand, authentication: Authentication): Long {
+        val passenger = authentication.principal as UserDetails
+        return passengerService.requestRide(passenger, command)
     }
 
     @GetMapping("/passengers/ride-requests/{requestId}")

@@ -4,10 +4,10 @@ import java.time.LocalDateTime
 
 data class AnyRideRequest(
         val id: Long,
-        val passengerId: Long,
+        val passengerName: String,
         val address: String,
         val requestedAt: LocalDateTime,
-        var driverId: Long?,
+        var driverName: String?,
         var respondedAt: LocalDateTime?,
         val isAllocated: Boolean
 )

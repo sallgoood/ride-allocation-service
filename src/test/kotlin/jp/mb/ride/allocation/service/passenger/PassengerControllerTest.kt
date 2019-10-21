@@ -30,7 +30,7 @@ internal class PassengerControllerTest : SecurityDisabledIntegrationTest() {
 
     @Test
     fun `when passenger request a ride then request should be persisted`() {
-        val command = RideRequestCommand(ANY_PASSENGER_ID, ANY_ADDRESS)
+        val command = RideRequestCommand(ANY_ADDRESS)
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
         mvc.perform(
@@ -41,13 +41,13 @@ internal class PassengerControllerTest : SecurityDisabledIntegrationTest() {
                 .andExpect(status().is2xxSuccessful)
                 .andExpect(jsonPath("$", notNullValue()))
 
-        val request = repository.findAllByPassengerId(ANY_PASSENGER_ID).first()
+        val request = repository.findAll().first()
         assertEquals(ANY_ADDRESS, request.address)
     }
 
     @Test
     fun `when passenger request with invalid data then should return 400`() {
-        val command = RideRequestCommand(ANY_INVALID_PASSENGER_ID, ANY_INVALID_ADDRESS)
+        val command = RideRequestCommand(ANY_INVALID_ADDRESS)
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
         mvc.perform(
@@ -60,7 +60,7 @@ internal class PassengerControllerTest : SecurityDisabledIntegrationTest() {
 
     @Test
     fun `when passenger request to confirm their ride request then return 200`() {
-        val requested = repository.save(requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME))
+        val requested = repository.save(requestedBy(ANY_PASSENGER_NAME, ANY_ADDRESS, ANY_DATE_TIME))
         mvc.perform(
                 get("/passengers/ride-requests/{requestId}", requested.id))
                 .andDo(print())
@@ -69,7 +69,7 @@ internal class PassengerControllerTest : SecurityDisabledIntegrationTest() {
     }
 
     companion object {
-        const val ANY_PASSENGER_ID = 0L
+        const val ANY_PASSENGER_NAME = "any@any.com"
         const val ANY_ADDRESS = "anyAddress"
         const val ANY_INVALID_PASSENGER_ID = -1L
         const val ANY_INVALID_ADDRESS = ""

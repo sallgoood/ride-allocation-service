@@ -14,7 +14,7 @@ class DriverService(
 
     fun findOpenedRequests(pageable: Pageable): OpenedRideRequestQueryResult {
         //TODO find requests near driver's location(lat, lon)
-        val openedRequests = repository.findAllByDriverIdIsNull(pageable)
+        val openedRequests = repository.findAllByDriverNameIsNull(pageable)
                 .map { OpenedRideRequest(id = it.id!!, address = it.address, requestedAt = it.requestedAt) }
 
         return OpenedRideRequestQueryResult(PageImpl
@@ -22,12 +22,12 @@ class DriverService(
     }
 
     fun respondRideRequest(driver: UserDetails, command: RideResponseCommand) {
-        val (requestId, driverId) = command
+        val (requestId) = command
         val requested = repository.findById(requestId).orElseThrow { throw EntityNotFoundException("$requestId not found") }
 
         check(!requested.isAllocated()) { "$requestId already allocated" }
 
-        val allocated = requested.allocateDriver(driverId, driver.username, now())
+        val allocated = requested.allocateDriver(driver.username, now())
         repository.save(allocated)
     }
 }
