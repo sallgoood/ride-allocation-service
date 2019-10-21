@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.data.domain.Pageable
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -42,7 +44,8 @@ class DriverController(
         ApiResponse(code = 409, message = "when ride is already allocated by another driver"),
         ApiResponse(code = 422, message = "when ride is already allocated by another driver")
     ])
-    fun respondRideRequest(@Valid @RequestBody command: RideResponseCommand) {
-        service.respondRideRequest(command)
+    fun respondRideRequest(@Valid @RequestBody command: RideResponseCommand, authentication: Authentication) {
+        val driver = authentication.principal as UserDetails
+        service.respondRideRequest(driver, command)
     }
 }

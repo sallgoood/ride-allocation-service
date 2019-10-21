@@ -1,8 +1,9 @@
 package jp.mb.ride.allocation.service.operator
 
-import jp.mb.ride.allocation.service.IntegrationTestBase
+import jp.mb.ride.allocation.service.SecurityDisabledIntegrationTest
 import jp.mb.ride.allocation.service.driver.DriverControllerTest.Companion.ANY_DATE_TIME
 import jp.mb.ride.allocation.service.driver.DriverControllerTest.Companion.ANY_DRIVER_ID
+import jp.mb.ride.allocation.service.driver.DriverControllerTest.Companion.ANY_DRIVER_NAME
 import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_ADDRESS
 import jp.mb.ride.allocation.service.passenger.PassengerControllerTest.Companion.ANY_PASSENGER_ID
 import jp.mb.ride.allocation.service.ride.RideRequest.Companion.requestedBy
@@ -17,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-internal class OperatorControllerTest : IntegrationTestBase() {
+internal class OperatorControllerTest : SecurityDisabledIntegrationTest() {
 
     @Autowired
     lateinit var repository: RideRequestRepository
@@ -31,7 +32,7 @@ internal class OperatorControllerTest : IntegrationTestBase() {
     fun `when operator query all requests then should return all requests with order by recently requested`() {
         val today = requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME)
         val yesterday = requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME.minusDays(1))
-        val twoDaysAgo = requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME.minusDays(2)).allocateDriver(ANY_DRIVER_ID, ANY_DATE_TIME)
+        val twoDaysAgo = requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME.minusDays(2)).allocateDriver(ANY_DRIVER_ID, ANY_DRIVER_NAME, ANY_DATE_TIME)
 
         val latest = repository.save(today)
         val mid = repository.save(yesterday)

@@ -20,7 +20,7 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfig(val tokenManager: JwtTokenManager) : WebSecurityConfigurerAdapter() {
+class SecurityConfig(val tokenManager: AuthenticationTokenManager) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
         http!!.csrf().disable()

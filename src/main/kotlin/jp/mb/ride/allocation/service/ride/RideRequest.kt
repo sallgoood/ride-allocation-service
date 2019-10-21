@@ -26,6 +26,9 @@ class RideRequest(
         var driverId: Long?,
 
         @Column
+        var driverName: String?,
+
+        @Column
         var respondedAt: LocalDateTime?,
 
         @Column
@@ -38,9 +41,10 @@ class RideRequest(
         }
     }
 
-    fun allocateDriver(driverId: Long, respondedAt: LocalDateTime): RideRequest {
+    fun allocateDriver(driverId: Long, driverName: String, respondedAt: LocalDateTime): RideRequest {
         this.driverId = driverId
         this.respondedAt = respondedAt
+        this.driverName = driverName
         return this
     }
 
@@ -49,6 +53,6 @@ class RideRequest(
     }
 
     private constructor(passengerId: Long, address: String, requestedAt: LocalDateTime) : this(
-            null, passengerId, address, requestedAt, null, null, null
+            null, passengerId, address, requestedAt, null, null, null, null
     )
 }

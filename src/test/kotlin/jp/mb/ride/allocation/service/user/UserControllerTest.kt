@@ -1,7 +1,7 @@
 package jp.mb.ride.allocation.service.user
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import jp.mb.ride.allocation.service.IntegrationTestBase
+import jp.mb.ride.allocation.service.SecurityEnabledIntegrationTest
 import jp.mb.ride.allocation.service.user.Role.ROLE_OPERATOR
 import org.hamcrest.Matchers.not
 import org.hamcrest.text.IsEmptyString.emptyOrNullString
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.http.MediaType
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -18,8 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@AutoConfigureMockMvc(addFilters = true)
-internal class UserControllerTest : IntegrationTestBase() {
+internal class UserControllerTest : SecurityEnabledIntegrationTest() {
 
     @Autowired
     lateinit var repository: UserRepository

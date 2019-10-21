@@ -47,6 +47,8 @@ you can configure from ./src/main/resources/application.yml, security.jwt.token.
 
 * passengers can request a ride with desired address to ride
 
+* passengers can confirm a request status
+
 * drivers can see list of ride requests
 
 * drivers can respond to a ride request to provide a ride

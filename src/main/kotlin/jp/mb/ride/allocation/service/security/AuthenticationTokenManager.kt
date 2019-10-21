@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct
 import javax.servlet.http.HttpServletRequest
 
 @Component
-class JwtTokenManager(
+class AuthenticationTokenManager(
         val userDetailsService: CustomUserDetailsService) {
 
     @Value("\${security.jwt.token.secret-key}")
@@ -26,6 +26,13 @@ class JwtTokenManager(
     @PostConstruct
     protected fun init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.toByteArray())
+    }
+
+    fun authenticate(request: HttpServletRequest): Authentication {
+        val token = this.resolveToken(request)
+        this.validateToken(token)
+        val userDetails = userDetailsService.loadUserByUsername(getUsername(token))
+        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
     fun createToken(username: String, roles: List<Role>): String {
@@ -44,11 +51,6 @@ class JwtTokenManager(
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact()
-    }
-
-    fun getAuthentication(token: String): Authentication {
-        val userDetails = userDetailsService.loadUserByUsername(getUsername(token))
-        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
     fun getUsername(token: String): String {

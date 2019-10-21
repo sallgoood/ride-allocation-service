@@ -1,7 +1,7 @@
 package jp.mb.ride.allocation.service.user
 
 import jp.mb.ride.allocation.service.exception.UsernameExistsException
-import jp.mb.ride.allocation.service.security.JwtTokenManager
+import jp.mb.ride.allocation.service.security.AuthenticationTokenManager
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -13,7 +13,7 @@ class UserService(
         val repository: UserRepository,
         val passwordEncoder: PasswordEncoder,
         val authenticationManager: AuthenticationManager,
-        val tokenManager: JwtTokenManager) {
+        val tokenManager: AuthenticationTokenManager) {
 
     fun signUpUser(command: UserSignUpCommand): TokenResponse {
         val (username, password, role) = command

@@ -1,5 +1,6 @@
 package jp.mb.ride.allocation.service.ride
 
+import jp.mb.ride.allocation.service.driver.DriverControllerTest.Companion.ANY_DRIVER_NAME
 import jp.mb.ride.allocation.service.ride.RideRequest.Companion.requestedBy
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
@@ -25,9 +26,9 @@ internal class RideRequestRepositoryTest {
 
         assertEquals(request01.id, request02.id)
 
-        repository.save(request01.allocateDriver(1L, now()))
+        repository.save(request01.allocateDriver(1L, ANY_DRIVER_NAME, now()))
 
         assertThrows(ObjectOptimisticLockingFailureException::class.java)
-        { repository.save(request02.allocateDriver(2L, now())) }
+        { repository.save(request02.allocateDriver(2L, ANY_DRIVER_NAME, now())) }
     }
 }

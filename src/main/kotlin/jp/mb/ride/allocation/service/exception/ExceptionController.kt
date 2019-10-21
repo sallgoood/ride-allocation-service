@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.orm.ObjectOptimisticLockingFailureException
+import org.springframework.validation.BindException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -48,6 +49,10 @@ class ExceptionController : ResponseEntityExceptionHandler() {
     @ExceptionHandler(value = [IllegalArgumentException::class])
     fun handleIllegalArgumentException(ex: IllegalArgumentException, request: WebRequest): ResponseEntity<Any> {
         return ResponseEntity.status(BAD_REQUEST).body(ErrorMessage(ex.message!!))
+    }
+
+    override fun handleBindException(ex: BindException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
+        return ResponseEntity.status(BAD_REQUEST).body(ErrorMessage(ex.message))
     }
 }
 
