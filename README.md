@@ -1,7 +1,7 @@
 # Getting Started
 
 ### How to run
-* [Make sure you have java 1.8, if not, please install following steps](https://medium.com/w-logs/installing-java-11-on-macos-with-homebrew-7f73c1e9fadfhttps://www3.ntu.edu.sg/home/ehchua/programming/howto/JDK_Howto.html)
+* [Make sure you have java 1.8, if not, please install following steps](http://www.lonecpluspluscoder.com/2017/04/27/installing-java-8-jdk-os-x-using-homebrew/)
 
 * highly recommend you to install the [intelliJ IDE](https://www.jetbrains.com/idea/download) for the review purpose
 
