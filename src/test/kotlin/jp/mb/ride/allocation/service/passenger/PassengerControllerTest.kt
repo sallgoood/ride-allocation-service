@@ -12,7 +12,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -33,7 +34,7 @@ internal class PassengerControllerTest : SecurityDisabledIntegrationTest() {
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
         mvc.perform(
-                MockMvcRequestBuilders.post("/passengers/request-ride")
+                post("/passengers/request-ride")
                         .content(commandJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -50,7 +51,7 @@ internal class PassengerControllerTest : SecurityDisabledIntegrationTest() {
         val commandJson = jacksonObjectMapper().writeValueAsString(command)
 
         mvc.perform(
-                MockMvcRequestBuilders.post("/passengers/request-ride")
+                post("/passengers/request-ride")
                         .content(commandJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -61,7 +62,7 @@ internal class PassengerControllerTest : SecurityDisabledIntegrationTest() {
     fun `when passenger request to confirm their ride request then return 200`() {
         val requested = repository.save(requestedBy(ANY_PASSENGER_ID, ANY_ADDRESS, ANY_DATE_TIME))
         mvc.perform(
-                MockMvcRequestBuilders.get("/passengers/ride-requests/{requestId}", requested.id))
+                get("/passengers/ride-requests/{requestId}", requested.id))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful)
                 .andExpect(jsonPath("id", `is`(requested.id!!.toInt())))

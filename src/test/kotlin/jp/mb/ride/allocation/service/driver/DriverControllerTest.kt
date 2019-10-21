@@ -97,7 +97,6 @@ internal class DriverControllerTest : SecurityDisabledIntegrationTest() {
 
     companion object {
         val ANY_DATE_TIME = now()
-        const val ANY_REQUEST_ID = 0L
         const val ANY_DRIVER_ID = 0L
         const val ANY_DRIVER_NAME = "anyDriver@driver.com"
         const val ANY_INVALID_REQUEST_ID = -1L

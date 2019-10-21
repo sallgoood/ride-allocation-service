@@ -83,16 +83,14 @@ internal class UserControllerTest : SecurityEnabledIntegrationTest() {
     fun `when user use services with insufficient authentication then return 401`() {
         //no header
         mvc.perform(
-                get("/operators/find-any-ride-requests")
-                        .contentType(MediaType.APPLICATION_JSON))
+                get("/operators/find-any-ride-requests"))
                 .andDo(print())
                 .andExpect(status().isUnauthorized)
 
         //no bearer token
         mvc.perform(
                 get("/operators/find-any-ride-requests")
-                        .header("Authorization", "InvalidValue")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .header("Authorization", "InvalidValue"))
                 .andDo(print())
                 .andExpect(status().isUnauthorized)
     }
@@ -103,8 +101,7 @@ internal class UserControllerTest : SecurityEnabledIntegrationTest() {
 
         mvc.perform(
                 get("/operators/find-any-ride-requests")
-                        .header("Authorization", "Bearer $driverToken")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .header("Authorization", "Bearer $driverToken"))
                 .andDo(print())
                 .andExpect(status().isForbidden)
     }
