@@ -7,5 +7,5 @@ data class MyRideRequestQueryResult(
         val address: String,
         val requestedAt: LocalDateTime,
         val respondedAt: LocalDateTime?,
-        val respondedBy: String?
+        val driverName: String?
 )
